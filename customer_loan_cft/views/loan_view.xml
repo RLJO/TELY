@@ -1,0 +1,304 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="seq_loan_management" model="ir.sequence">
+            <field name="name">Loan Management</field>
+            <field name="code">customer.loan</field>
+            <field name="prefix">LOAN</field>
+            <field name="padding">6</field>
+            <field name="company_id" eval="False" />
+        </record>
+    </data>
+
+    <record id="form_view_of_loan" model="ir.ui.view">
+        <field name="name">Customer Loan Form</field>
+        <field name="model">customer.loan</field>
+        <field name="arch" type="xml">
+            <form string="Customer Loan Request">
+                <header>
+                    <field name="status" widget="statusbar" readonly="True"/>
+                    <button name="action_reset_todraft" string="Reset to Draft" type="object" class="btn-primary" attrs="{'invisible': [('status', '!=', 'cancel')]}"/>
+                    <button name="action_send_approval" type="object" string="Send For Approval" class="btn-primary" attrs="{'invisible': [('status', '!=', 'draft')]}"/>
+                    <button name="approve_loan"  type="object" string="Approved" class="btn-primary" groups="account.group_account_manager" attrs="{'invisible': [('status', '!=', 'waiting')]}"/>           
+                    <button name="%(action_full_pay_cft)d" type="action" string="Pay Full Loan" attrs="{'invisible': ['|',('status', '!=', 'approved'),('total_remaining','=',0.0)]}"/>
+                    <button name="action_cancel" type="object" string="Cancel" attrs="{'invisible': [('status', 'in', ['done','cancel'])]}"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box">
+                        <button name="view_entry" class="oe_stat_button" icon="fa-book" attrs="{'invisible': [('status', 'not in', ('done','approved'))]}" type="object" string="Account Entry"/>
+                    </div>
+                    <h1 class="mt0">
+                        <field name="name" readonly="True" class="oe_inline"/>
+                    </h1>
+                    <group>
+                        <group>
+                            <field name="customer_id" domain="[('customer','=',True)]" invisible="context.get('bank')" required="context.get('loan')" attrs="{'readonly': [('status', '!=', 'draft')]}"/>
+                            <field name="vendor_id" domain="[('supplier','=',True)]" invisible="context.get('loan')" required="context.get('bank')" attrs="{'readonly':[('status', '!=', 'draft')]}"/>
+                            <field name="amount" attrs="{'readonly': [('status', 'in', ('done','approved','cancelled'))]}"/>
+                            <label for="no_of_installment" />
+                            <div>
+                                <field name="no_of_installment" attrs="{'readonly': [('status', 'in', ('done','approved', 'cancelled'))]}"/>
+                            </div>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                        <group>
+                            <field name="loan_issuing_date" attrs="{'invisible': [('loan_issuing_date', '=', False)]}" readonly="True"/>
+                            <field name="start_date" attrs="{'readonly': [('status', '!=', 'draft')]}" required="True"/>
+                            <label for="rate" />
+                            <div>
+                                <field name="rate" attrs="{'readonly': [('status', 'in', ('done','approved','cancelled'))]}" class="oe_inline"/>%
+                                <field name="rate_period" invisible="True"/>
+                            </div>
+                            <field name="hide_interval" invisible="True"/>
+                            <label for ="number_of_interval"  string="Interval In Installments" attrs="{'invisible': [('hide_interval', '=', False)]}" />
+                            <div class="o_row" attrs="{'invisible': [('hide_interval', '=', False)]}">
+                                <field name="number_of_interval" />
+                                <field name="select_period" />
+                            </div>
+                            <field name="currency_id" groups="base.group_multi_currency"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="EMI">
+                            <div groups="account.group_account_manager" class="oe_right">
+                                <button name="action_calculation" type="object" string="Calculate Installments" 
+                                    class="btn-primary" attrs="{'invisible': ['|',('status', 'in', ('draft', 'cancelled','done'))]}" />
+                                <button name="clear_installment_line" type="object" string="Clear All" 
+                                    attrs="{'invisible': ['|',('status', 'in', ('draft', 'cancelled','done'))]}" />
+                            </div>
+                            <group>
+
+                                <field name="line_ids" nolabel="1" attrs="{'readonly': [('status', '!=', 'draft')]}">
+                                    <tree string="Customer Loan Installments" default_order="due_date" create="false" delete="false">
+                                        <field name="sr_number" />
+                                        <field name="due_date"/>
+                                        <field name="amount"/>
+                                        <field name="interest"/>
+                                        <field name="installment"/>
+                                        <field name="remaining"  />
+                                        <field name="hide_payment_btn" invisible="True"/>
+                                        <field name="status" readonly="True"  required="True"/>
+                                        <button name="%(customer_loan_pay_amount_line_action)d" attrs="{'invisible': [('hide_payment_btn', '=', False)]}" context="{'due_date':due_date}" class="oe_stat_button" icon="fa-usd" type="action" string="Pay amount"/>
+                                    </tree>
+                                </field>
+                            </group>
+                            <group class="oe_subtotal_s oe_right">
+                                <field name="total_paid"  class="oe_subtotal_footer_separator" widget="monetary"/>
+                                <field name="total_remaining" class="oe_subtotal_footer_separator"/>
+                            </group>
+                            <field name="description" placeholder="Terms &amp; Condition" nolabel="1"/>
+                        </page>                        
+                        <page string="Other Information">
+                            <group>
+                                <group>
+                                    <field name="loan_journal_id" attrs="{'required': [('status', '=', 'waiting')]}"/>
+                                    <field name="debit_account_id" attrs="{'required': [('status', '=', 'waiting')]}"/>
+                                    <field name="interest_account_id" attrs="{'required': [('status', '=', 'waiting')]}" />
+                                </group>
+                                <group>
+                                    <field name="credit_account_id" attrs="{'required': [('status', '=', 'waiting')]}"/>
+                                    <field name="process_fee" />            
+                                    <field name="user_id"/>
+                              </group>
+                            </group>
+                        </page>   
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="tree_view_of_loan" model="ir.ui.view">
+        <field name="name">Customer Loan Tree</field>
+        <field name="model">customer.loan</field>
+        <field name="arch" type="xml">
+            <tree string="Customer Loan Request">
+                <field name="name"/>
+                <field name="customer_id"/>
+                <field name="no_of_installment"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+                <field name="currency_id" groups="base.group_multi_currency"/>
+                <field name="start_date"/>
+                <field name="user_id"/>                
+                <field name="status"/>
+                <field name="amount" sum="Customer Loan Amount"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="tree_view_of_bank_loan" model="ir.ui.view">
+        <field name="name">Customer Loan Tree</field>
+        <field name="model">customer.loan</field>
+        <field name="arch" type="xml">
+            <tree string="Customer Loan Request">
+                <field name="name"/>
+                <field name="vendor_id"/>
+                <field name="no_of_installment"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+                <field name="currency_id" groups="base.group_multi_currency"/>
+                <field name="start_date"/>
+                <field name="user_id"/>                
+                <field name="status"/>
+                <field name="amount" sum="Customer Loan Amount"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="search_view_of_loan" model="ir.ui.view">
+        <field name="name">Customer Loan Search</field>
+        <field name="model">customer.loan</field>
+        <field name="arch" type="xml">
+            <search string="Customer Loan Requests">
+                <field name="name"/>
+                <field name="customer_id"/>
+
+                <field name="status"/>
+                <group expand="0" string="Group By...">
+                    <filter name="group_loan_customer_id" string="customer" context="{'group_by':'customer_id'}"/>
+                    <filter name="status" string="Status" icon="terp-go-today" domain="[]" context="{'group_by':'status'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="form_view_of_loan_line" model="ir.ui.view">
+        <field name="name">Loan Line Form</field>
+        <field name="model">customer.loan.line</field>
+        <field name="arch" type="xml">
+            <form string="Customer Loan Installments" create="0" edit="0">
+                <header>                     
+                    <field name="status" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="customer_id" attrs="{'invisible': [('customer_id', '=', False)]}" readonly="True"/>
+                            <field name="vendor_id" attrs="{'invisible': [('vendor_id', '=', False)]}" readonly="True"/>
+                            <field name="amount" readonly="True" required="True"/>
+                            <field name="interest" readonly="True" />
+                            <field name="company_id" groups="base.group_multi_company" readonly="True" />
+                        </group>
+                        <group>
+                            <field name="loan_id" string="Reference" readonly="True" required="True"/>
+                            <field name="due_date" readonly="True" required="True"/>
+                            <field name="installment" readonly="True" />
+                            <field name="currency_id" groups="base.group_multi_currency" readonly="True" />
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="tree_view_of_loan_line" model="ir.ui.view">
+        <field name="name">Loan Line Tree</field>
+        <field name="model">customer.loan.line</field>
+        <field name="arch" type="xml" >
+            <tree string="Customer Loan Installments" create="0">
+                <field name="loan_id"/>
+                <field name="customer_id"/>
+                <field name="due_date"/>
+                <field name="amount"/> 
+                <field name="company_id" groups="base.group_multi_company"/>
+                <field name="currency_id" groups="base.group_multi_currency"/>
+                <field name="status"/> 
+            </tree>
+        </field>
+    </record>
+
+    <record id="tree_view_of_bank_loan_line" model="ir.ui.view">
+        <field name="name">Loan Line Tree</field>
+        <field name="model">customer.loan.line</field>
+        <field name="arch" type="xml" >
+            <tree string="Customer Loan Installments" create="0">
+                <field name="loan_id"/>
+                <field name="vendor_id"/>
+                <field name="due_date"/>
+                <field name="amount"/> 
+                <field name="company_id" groups="base.group_multi_company"/>
+                <field name="currency_id" groups="base.group_multi_currency"/>
+                <field name="status"/> 
+            </tree>
+        </field>
+    </record>
+
+    <record id="search_view_of_loan_line" model="ir.ui.view">
+        <field name="name">Loan Line Search</field>
+        <field name="model">customer.loan.line</field>
+        <field name="arch" type="xml">
+            <search string="Customer Loan Installments">
+                <field name="customer_id"/>
+                <field name="loan_id"/>
+                <field name="due_date"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+                <field name="currency_id" groups="base.group_multi_currency"/>
+                <field name="status"/>
+                <group expand="0" string="Group By...">
+                    <filter name="group_customer_id" string="Customer" context="{'group_by':'customer_id'}"/>
+                    <filter string="Customer Loan" name="group_loan" context="{'group_by':'loan_id'}"/>
+                    <filter string="Due Date" name="group_month" context="{'group_by':'due_date'}"/>
+                    <filter name="group_status" string="Status" icon="terp-go-today" context="{'group_by':'status'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_customer_loan" model="ir.actions.act_window">
+        <field name="name">Customer Loan Request</field>
+        <field name="res_model">customer.loan</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{'loan':True}</field>
+        <field name="domain">[('customer_id','!=',False)]</field>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+                Click here to create Customer Loan request!
+            </p>
+        </field>
+    </record>
+
+    <record id="action_vendor_loan" model="ir.actions.act_window">
+        <field name="name">Vendor Loan Request</field>
+        <field name="res_model">customer.loan</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{'bank':True}</field>
+        <field name="view_id" ref="tree_view_of_bank_loan"/>
+        <field name="domain">[('vendor_id','!=',False)]</field>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+                Click here to create Loan request!
+            </p>
+        </field>
+    </record>
+
+    <record id="action_loan_line_for_customer" model="ir.actions.act_window">
+        <field name="name">Customer Loan Installments</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">customer.loan.line</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('customer_id','!=',False)]</field>
+    </record>
+
+    <record id="action_loan_line_for_vendor" model="ir.actions.act_window">
+        <field name="name">Vendor Loan Installments</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">customer.loan.line</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="tree_view_of_bank_loan_line"/>
+        <field name="domain">[('vendor_id','!=',False)]</field>
+    </record>
+
+    <menuitem id="menu_main_loan_mgmt" name="Loan Management" groups="account.group_account_invoice" parent="account.menu_finance"/>  
+    <menuitem id ="submain_menu_of_customer" name="Customer" sequence="1" parent="menu_main_loan_mgmt"/>
+    <menuitem id="menu_cst_loan_contracts" name="Loan" action="action_customer_loan" parent="submain_menu_of_customer" sequence="1"/>
+    <menuitem id="menu_customer_loan_installments" name="Installments" action="action_loan_line_for_customer"  sequence="2" parent="submain_menu_of_customer"/>
+    <menuitem id ="submain_menu_of_vendor" name="Vendor" sequence="2" parent="menu_main_loan_mgmt"/>
+    <menuitem id="menu_loan_request_taken_from_bank" name="Loan" action="action_vendor_loan" parent="submain_menu_of_vendor" sequence="1"/>
+    <menuitem id="menu_vendor_loan_installments" name="Installments" action="action_loan_line_for_vendor"  sequence="2" parent="submain_menu_of_vendor"/>
+        
+</odoo>

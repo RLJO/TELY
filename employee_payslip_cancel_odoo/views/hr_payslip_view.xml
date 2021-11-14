@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_hr_payslip_form_inherit_cancel" model="ir.ui.view">
+        <field name="name">hr.payslip.inherit.inherit.cancel</field>
+        <field name="model">hr.payslip</field>
+        <field name="inherit_id" ref="hr_payroll.view_hr_payslip_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//button[@name='refund_sheet']" position="after">
+                 <button string="Reset To Draft" name="action_reset_payslip_custom" states="done" type="object" confirm="This action will cancel a payslip and delete related accounting entry and reset payslip to draft state." groups="hr_payroll.group_hr_payroll_manager"/>
+            </xpath>
+        </field>
+    </record>
+    
+</odoo>

@@ -1,0 +1,102 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* sh_account_roundoff
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 14.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-02-11 06:08+0000\n"
+"PO-Revision-Date: 2021-02-11 06:08+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: sh_account_roundoff
+#: model:ir.model,name:sh_account_roundoff.model_res_company
+msgid "Companies"
+msgstr ""
+
+#. module: sh_account_roundoff
+#: model:ir.model,name:sh_account_roundoff.model_res_config_settings
+msgid "Config Settings"
+msgstr ""
+
+#. module: sh_account_roundoff
+#: model:ir.model.fields,field_description:sh_account_roundoff.field_account_move__display_name
+#: model:ir.model.fields,field_description:sh_account_roundoff.field_account_move_line__display_name
+#: model:ir.model.fields,field_description:sh_account_roundoff.field_res_company__display_name
+#: model:ir.model.fields,field_description:sh_account_roundoff.field_res_config_settings__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: sh_account_roundoff
+#: model:ir.model.fields,field_description:sh_account_roundoff.field_res_company__sh_enable_round_off
+#: model:ir.model.fields,field_description:sh_account_roundoff.field_res_config_settings__sh_enable_round_off
+msgid "Enable Round Off"
+msgstr ""
+
+#. module: sh_account_roundoff
+#: model:ir.model.fields,field_description:sh_account_roundoff.field_account_move__id
+#: model:ir.model.fields,field_description:sh_account_roundoff.field_account_move_line__id
+#: model:ir.model.fields,field_description:sh_account_roundoff.field_res_company__id
+#: model:ir.model.fields,field_description:sh_account_roundoff.field_res_config_settings__id
+msgid "ID"
+msgstr ""
+
+#. module: sh_account_roundoff
+#: model:ir.model,name:sh_account_roundoff.model_account_move
+msgid "Journal Entry"
+msgstr ""
+
+#. module: sh_account_roundoff
+#: model:ir.model,name:sh_account_roundoff.model_account_move_line
+msgid "Journal Item"
+msgstr ""
+
+#. module: sh_account_roundoff
+#: model:ir.model.fields,field_description:sh_account_roundoff.field_account_move____last_update
+#: model:ir.model.fields,field_description:sh_account_roundoff.field_account_move_line____last_update
+#: model:ir.model.fields,field_description:sh_account_roundoff.field_res_company____last_update
+#: model:ir.model.fields,field_description:sh_account_roundoff.field_res_config_settings____last_update
+msgid "Last Modified on"
+msgstr ""
+
+#. module: sh_account_roundoff
+#: code:addons/sh_account_roundoff/models/invoice.py:0
+#, python-format
+msgid "Please set Round of Account !"
+msgstr ""
+
+#. module: sh_account_roundoff
+#: model:ir.model.fields,field_description:sh_account_roundoff.field_res_company__sh_round_off_account_id
+#: model:ir.model.fields,field_description:sh_account_roundoff.field_res_config_settings__sh_round_off_account_id
+msgid "Round Off Account"
+msgstr ""
+
+#. module: sh_account_roundoff
+#: model:ir.model.fields,field_description:sh_account_roundoff.field_account_bank_statement_line__sh_round_amount
+#: model:ir.model.fields,field_description:sh_account_roundoff.field_account_move__sh_round_amount
+#: model:ir.model.fields,field_description:sh_account_roundoff.field_account_payment__sh_round_amount
+msgid "Round Off Amount"
+msgstr ""
+
+#. module: sh_account_roundoff
+#: model_terms:ir.ui.view,arch_db:sh_account_roundoff.sh_round_off_config_setting_view
+msgid "Round Off Configuration"
+msgstr ""
+
+#. module: sh_account_roundoff
+#: model:ir.model.fields,field_description:sh_account_roundoff.field_account_bank_statement_line__sh_round_off_total
+#: model:ir.model.fields,field_description:sh_account_roundoff.field_account_move__sh_round_off_total
+#: model:ir.model.fields,field_description:sh_account_roundoff.field_account_payment__sh_round_off_total
+msgid "Round Off Total"
+msgstr ""
+
+#. module: sh_account_roundoff
+#: model:ir.model.fields,field_description:sh_account_roundoff.field_account_move_line__sh_round
+msgid "Rounding Line"
+msgstr ""

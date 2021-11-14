@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+        <record id="view_multi_product_categ_update_wizard" model="ir.ui.view">
+            <field name="name">Multiple Journal Entry Cancel</field>
+            <field name="model">multipal.account.move.cancel.wiz</field>
+            <field name="arch" type="xml">
+                <form string="Multiple Journal Entry Cancel">
+                    <group>
+                        <group>
+                            <strong>
+                                Are you sure you want to cancel all selected Orders ?
+                            </strong>
+                        </group>
+                        <group>
+                            <field name="confirm_cancel"/>
+                        </group>
+                    </group>
+                    <footer> 
+                        <button name="mass_cancel_account_move" type="object" string="Mass Cancel Journal Entry" class="oe_highlight"/> or <button name="cancel" string="Cancel" special="cancel" class="oe_link"/> 
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <act_window
+            id="act_multipal_account_move_cancel"
+            name="Multiple Journal Entry Cancel"
+            res_model="multipal.account.move.cancel.wiz"
+            src_model="account.move"
+            view_mode="form"
+            multi="True"
+            target="new"
+            key2="client_action_multi"
+            groups="multi_account_move_cancel_app.group_multipal_journal_entry_cancel"
+        />
+
+</odoo>

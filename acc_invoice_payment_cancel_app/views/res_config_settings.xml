@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<record id="res_config_settings_view_form_account_inherit_id" model="ir.ui.view">
+        <field name="name">res.config.settings.view.account</field>
+        <field name="model">res.config.settings</field>
+        <field name="priority" eval="10"/>
+        <field name="inherit_id" ref="account.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@id='invoicing_settings']" position="after">
+                <h2>Cancel Configuration For Account</h2>
+                <div class="row mt16 o_settings_container">
+					<div class="col-12 col-lg-6 o_setting_box">
+						<div class="o_setting_right_pane">
+							<label for="invoice_opration_type" string="Invoice Type"/>
+						</div>
+						<div class="o_setting_right_pane">
+							<field name="invoice_opration_type" widget="radio"/>
+						</div>
+					</div>
+					<div class="col-12 col-lg-6 o_setting_box">
+						<div class="o_setting_right_pane">
+							<label for="payment_opration_type" string="Payment Type"/>
+						</div>
+						<div class="o_setting_right_pane">
+							<field name="payment_opration_type" widget="radio"/>
+						</div>
+					</div>
+				</div>
+            </xpath>
+        </field>
+    </record>
+</odoo>

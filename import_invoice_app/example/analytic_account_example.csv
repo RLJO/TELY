@@ -1,0 +1,4 @@
+invoice,customer,delivery add,payment terms,DATE,sales person,sales team,journal,fiscal potion,product,description,account,qty,uom,price,tax,analytic account,analytic tags
+INVC/0012,Deco Addict,Deco Addict,End of Following Month,08/31/2019,Mitchell Admin,Europe,Bank,Export,Office Lamp,Office Lamp,Bank,4,Unit(s),234,IGST 1%,Deco Addict,Contracts
+INVC/0022,Lumber Inc,Lumber Inc,End of Following Month,08/31/2019,Mitchell Admin,Europe,Bank,Export,Office Lamp,Office Lamp,Bank,1,Unit(s),50,IGST 1%,Lumber Inc,Contracts
+INVC/0022,Lumber Inc,Lumber Inc,End of Following Month,08/31/2019,Mitchell Admin,Europe,Bank,Export,Large Desk,Large Desk,IGST Receivable,2,Unit(s),50,IGST 1%,Lumber Inc,Contracts

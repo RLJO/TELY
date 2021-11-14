@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="customer_report_wizard" model="ir.ui.view">
+            <field name="name">Reporte de cliente</field>
+            <field name="model">customer.report.wizard</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="partner_id"/>
+                            <field name="journal_ids" widget="many2many_tags"/>
+                        </group>
+                    </sheet>
+                    <footer>
+                        <button string="Descargar" name="continue_process_report" type="object" class="btn-primary" icon="fa-download"/>
+                        <button string="Ver email" name="send_mail" type="object" class="btn-primary" icon="fa-envelope-o"/>
+                        <button string="Cancelar" class="btn-secondary" special="cancel" icon="fa-times-circle-o"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_customer_overdue_import" model="ir.actions.act_window">
+            <field name="name">Estado de cuenta por diario</field>
+            <field name="res_model">customer.report.wizard</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="customer_report_wizard"/>
+            <field name="target">new</field>
+        </record>
+
+<!--        <act_window id="action_customer_overdue_import"-->
+<!--                    name="Estado de cuenta por diario"-->
+<!--                    binding_model="res.partner"-->
+<!--                    res_model="customer.report.wizard"-->
+<!--                    binding_type="action"-->
+<!--                    binding_views="list,form"-->
+<!--                    view_mode="form"-->
+<!--                    target="new"/>-->
+<!--        -->
+          <act_window
+           id="action_customer_overdue_import"
+           name="Estado de cuenta por diario"
+           context="{'default_partner_id': active_id}"
+           res_model="customer.report.wizard"
+           src_model="res.partner"
+           view_mode="form"
+           target="new"
+           groups="acs_customer_due.group_customer_filter_journal"
+          />
+    </data>
+</odoo>

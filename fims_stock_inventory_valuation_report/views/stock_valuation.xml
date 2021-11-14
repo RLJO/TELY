@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data>
+		<record id="stock_valuation_wizard_form_view" model="ir.ui.view">
+            <field name="name">stock.valuation.wizard.form</field>
+            <field name="model">stock.valuation.report</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group attrs="{'invisible':[('valuation_printed','=',True)]}">
+                    	<group string="Warehouse" >
+                    		<field name="warehourse_ids" domain="[('company_id', '=', company_id)]" widget="many2many_tags" />
+                    	</group>
+                        <group string="Company">
+                            <field name="company_id"/>
+                        </group>
+                    </group>
+                    <group attrs="{'invisible':[('valuation_printed','=',True)]}">
+                    	<group string="Location">
+                    		<field name="location_ids" widget="many2many_tags" required="True"/>
+                    	</group>
+                        <group string="Valuation">
+                            <field name="start_date" required="True"/>
+                            <field name="end_date" required="True"/>
+                        </group>
+                    </group>
+                    <group string="Product Category" attrs="{'invisible':[('valuation_printed','=',True)]}">
+                    	<field name="category_ids" nolabel="1"/>
+                    </group>
+                    
+                    <group name='sub_group2' attrs="{'invisible':[('valuation_printed','=',False)]}">
+	        			<field name="file_name" invisible="1"/>
+		                <field name="stock_report_file" readonly="1" filename="file_name"/>
+		                <field name="valuation_printed" invisible="1"/>
+	        		</group>
+	        		
+                    <footer>
+                        <button string="Print PDF" name="generate_pdf" type="object" attrs="{'invisible':[('valuation_printed','=',True)]}" class="oe_highlight"/>
+                        
+                        <button string="Print Excel" name="generate_excel" type="object" attrs="{'invisible':[('valuation_printed','=',True)]}" class="oe_highlight"/>
+                        
+                        <button string="Cancel" class="btn btn-default" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+        
+		<record id="action_stock_valuation" model="ir.actions.act_window">
+	        <field name="name">Realtime Stock Valuation</field>
+	        <field name="res_model">stock.valuation.report</field>
+	        <field name="view_mode">form</field>
+	        <field name="target">new</field>
+	    </record>
+    
+		<menuitem action="action_stock_valuation" id="menu_stock_valuation"
+	        parent="stock.menu_warehouse_report" groups=""
+	        sequence="155"/>
+    </data>
+</odoo>

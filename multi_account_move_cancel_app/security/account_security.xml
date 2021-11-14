@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+	    <record id="group_multipal_journal_entry_cancel" model="res.groups">
+	        <field name="name">Manage Multiple Journal Entries Cancel</field>
+	    </record>
+
+    </data>
+</odoo>

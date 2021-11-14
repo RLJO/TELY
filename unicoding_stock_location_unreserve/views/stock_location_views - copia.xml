@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+  <data>
+
+    <record id="unicoding_stock_clean_stock_location_form" model="ir.ui.view">
+      <field name="name">unicoding.stock.clean.stock.location.form</field>
+      <field name="model">stock.location</field>
+      <field name="inherit_id" ref="stock.view_location_form" />
+      <field name="arch" type="xml">
+        <xpath expr="//sheet" position="before">
+        <header>
+          <button name="button_unreserve" string="Unreserve" type="object" class="oe_highlight" confirm="Are you sure to unset reservation of products in current location? Child's locations will not be touched."/>
+        </header>
+        </xpath>
+      </field>
+
+    </record>
+
+    <record id="unicoding_view_stock_quant_form" model="ir.ui.view">
+      <field name="name">unicoding.stock.quant.form</field>
+      <field name="model">stock.quant</field>
+      <field name="inherit_id" ref="stock.view_stock_quant_form" />
+      <field name="arch" type="xml">
+        <xpath expr="//sheet" position="before">
+        <header>
+          <button name="button_unreserve" string="Unreserve" type="object" class="oe_highlight" confirm="Are you sure to unset reservation of products in current location? Child's locations will not be touched."/>
+        </header>
+        </xpath>
+      </field>
+
+    </record>
+
+  </data>
+</odoo>

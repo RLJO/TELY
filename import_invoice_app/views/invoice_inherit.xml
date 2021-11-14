@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+	<!-- <record id="invoice_auto_bill_module_form_view" model="ir.ui.view">
+            <field name="name">invoice.auto.bill.module.form.view</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.invoice_form"/>
+            <field name="arch" type="xml">
+            
+            <field name="type" position="after">
+            	<field name="import_sequence"/>
+            	
+            </field>
+
+            <h1 class="mt0" position="replace">
+            	<div attrs="{'invisible': ['|',('sequence_number_next_prefix','!=',False),('import_sequence','=',True)]}">
+                            <label for="number" string="Draft Invoice" attrs="{'invisible': ['|',('state','not in',('draft',)), ('type','!=','out_invoice')]}"/>
+                            <label for="number" string="Draft Credit Note" attrs="{'invisible': ['|',('state','not in',('draft',)), ('type','!=','out_refund')]}"/>
+                            <field name="number" readonly="1" class="oe_inline" attrs="{'invisible': [('state','in',('draft',))]}"/>
+                  </div>
+                  <div attrs="{'invisible': ['|',('sequence_number_next_prefix','=',False),('import_sequence','=',True)]}">
+                            <label for="sequence_number_next_prefix" string="Invoice Number:"/><br/>
+                            <field name="sequence_number_next_prefix" class="oe_inline"/>
+                            <field name="sequence_number_next" class="oe_inline"/>
+                   </div>
+                   <div attrs="{'invisible': [('import_sequence','!=',True)]}">
+                   	<field name="new_sequence" readonly="1" class="oe_inline" attrs="{'invisible': [('state','in',('draft',))]}"/>
+                   </div>
+
+            </h1>
+            </field>
+        </record> -->
+	
+	
+</odoo>

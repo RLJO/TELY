@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+        <record id="view_move_form_extended" model="ir.ui.view">
+            <field name="name">account.move.form.extended</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_move_form"/>
+            <field name="arch" type="xml">
+                <button name="action_duplicate" position="before">
+                    <button name="action_move_draft" states="cancel" string="Set to Draft" type="object"/>
+                </button>
+                <field name="state" position="attributes">
+                    <attribute name="statusbar_visible">draft,posted</attribute>
+                </field>
+            </field>
+        </record>
+</odoo>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+
+	<record id="rule_expense" model="hr.salary.rule" forcecreate="False">
+		<field name="name">Expense</field>
+		<field name="code">Expense</field>
+		<field name="category_id" ref="hr_payroll.ALW" />
+		<field name="condition_select">python</field>
+		<field name="appears_on_payslip" eval="True" />
+		<field name="condition_python">
+<![CDATA[
+result = employee.env['hr.expense.sheet'].sudo().search([('employee_id','=', employee.id), ('state', '=', 'post'), ('payment_mode','=', 'own_account'), ('payslip_id', 'in', [payslip.id, False] )])
+]]>
+		</field>			
+		<field name="amount_select">code</field>
+		<field name="amount_python_compute">
+<![CDATA[
+sheet_ids = employee.env['hr.expense.sheet'].sudo().search([('employee_id','=', employee.id), ('state', '=', 'post'), ('payment_mode','=', 'own_account'), ('payslip_id', 'in', [payslip.id, False] )])
+result = 0.0
+for line in sheet_ids.mapped('account_move_id.line_ids'):
+    if line.account_id.user_type_id.type == 'payable':
+        result -= line.amount_residual
+sheet_ids.write({'payslip_id' : payslip.id})
+]]>
+		</field>			
+	</record>
+	
+	<function model="hr.payroll.structure" name="write" eval="([ref('hr_payroll.structure_base')], {'rule_ids' : [(4, ref('rule_expense'))]})" />
+
+</odoo>

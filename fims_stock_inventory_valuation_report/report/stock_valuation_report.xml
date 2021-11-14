@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+    	<record id="paperformat_stock_valuation" model="report.paperformat">
+	        <field name="name">Stock Valuation</field>
+	        <field name="default" eval="True"/>
+	        <field name="format">A4</field>
+	        <field name="page_height">0</field>
+	        <field name="page_width">0</field>
+	        <field name="orientation">Landscape</field>
+	        <field name="margin_top">40</field>
+	        <field name="margin_bottom">20</field>
+	        <field name="margin_left">7</field>
+	        <field name="margin_right">7</field>
+	        <field name="header_line" eval="False"/>
+	        <field name="header_spacing">35</field>
+	        <field name="dpi">90</field>
+	    </record>
+    
+    	<report 
+            id="action_report_stock_valuation"
+            string="Stock Valuation Report"
+            model="stock.valuation.report" 
+            report_type="qweb-pdf"
+            paperformat="fims_stock_inventory_valuation_report.paperformat_stock_valuation"
+            file="fims_stock_inventory_valuation_report.report_stock_valuation" 
+            name="fims_stock_inventory_valuation_report.report_stock_valuation" />
+        
+        <template id="report_subscription_document">
+        	<t t-call="web.external_layout">
+        		<div class="page">
+		            <div class="oe_structure"/>
+					
+					<center><h2>Stock Valuation Report</h2></center>
+					
+					<t t-foreach="doc.location_ids" t-as="location">
+					
+						<table style="width:100%;margin-top: 30px;text-align: center;font-size: 15px;">
+							<tr>
+								<th style="border:1px solid black;">Company</th>
+								<th style="border:1px solid black;">Warehouse</th>
+								<th style="border:1px solid black;">Location</th>
+								<th style="border:1px solid black;">Duration</th>
+								<th style="border:1px solid black;">Currency</th>
+							</tr>
+							<tr>
+								<td style="border:1px solid black;"><span t-field="doc.company_id.name"/></td>
+								<td style="border:1px solid black;"><t t-foreach="doc.warehourse_ids" t-as="warehouse">
+										<span t-esc="warehouse.name"/>
+									</t>
+								</td>
+								<td style="border:1px solid black;"><span t-field="location.complete_name"/></td>
+								<td style="border:1px solid black;"><span t-field="doc.start_date"/> to <span t-field="doc.end_date"/></td>
+								<td style="border:1px solid black;"><span t-field="doc.company_id.currency_id.name"/></td>
+							</tr>
+							
+						</table>
+						<table style="width:100%;margin-top: 20px;text-align: center;font-size: 13px;">
+							<tr>
+								<th style="border:1px solid black;">Default Code</th>
+								<th style="border:1px solid black;">Name</th>
+								<th style="border:1px solid black;">Category</th>
+								<th style="border:1px solid black;text-align: right;padding-right: 10px;">Cost Price</th>
+								<th style="border:1px solid black;text-align: right;padding-right: 10px;">Beginning</th>
+								<th style="border:1px solid black;text-align: right;padding-right: 10px;">Internal</th>
+								<th style="border:1px solid black;text-align: right;padding-right: 10px;">Purchased</th>
+								<th style="border:1px solid black;text-align: right;padding-right: 10px;">Sales</th>
+								<th style="border:1px solid black;text-align: right;padding-right: 10px;">Adjustment</th>
+								<th style="border:1px solid black;text-align: right;padding-right: 10px;">Ending</th>
+								<th style="border:1px solid black;text-align: right;padding-right: 10px;">Valuation</th>
+							</tr>
+								<t t-foreach="doc._get_stock_valuation(doc, location)" t-as="valuation">
+									<tr>
+										<td style="border:1px solid black;"><span t-esc="valuation['code']"/></td>
+										<td style="border:1px solid black;"><span t-esc="valuation['name']"/></td>
+										<td style="border:1px solid black;"><span t-esc="valuation['category']"/></td>
+										<td style="border:1px solid black;text-align: right;padding-right: 10px;"><span t-esc="valuation['cost_price']"/></td>
+										<td style="border:1px solid black;text-align: right;padding-right: 10px;"><span t-esc="valuation['begining']"/></td>
+										<td style="border:1px solid black;text-align: right;padding-right: 10px;"><span t-esc="valuation['internal']"/></td>
+										<td style="border:1px solid black;text-align: right;padding-right: 10px;"><span t-esc="valuation['purchase']"/></td>
+										<td style="border:1px solid black;text-align: right;padding-right: 10px;"><span t-esc="valuation['sales']"/></td>
+										<td style="border:1px solid black;text-align: right;padding-right: 10px;"><span t-esc="valuation['adjustment']"/></td>
+										<td style="border:1px solid black;text-align: right;padding-right: 10px;"><span t-esc="valuation['ending']"/></td>
+										<td style="border:1px solid black;text-align: right;padding-right: 10px;"><span t-esc="valuation['stock_value']"/></td>
+									</tr>
+								</t>
+							
+						</table>
+						
+						<p style="page-break-before:always;"> </p>
+					</t>
+		        </div>
+        	</t>
+        </template>
+            
+        <template id="report_stock_valuation">
+		    <t t-call="web.html_container">
+		        <t t-foreach="docs" t-as="doc">
+		            <t t-call="fims_stock_inventory_valuation_report.report_subscription_document" t-lang="doc.company_id.partner_id.lang"/>
+		        </t>
+		    </t>
+		</template>
+    </data>
+</odoo>

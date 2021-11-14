@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="hr_contract_form2_inherit" model="ir.ui.view">
+        <field name="model">hr.contract</field>
+        <field name="inherit_id" ref="hr_contract.hr_contract_view_form"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//field[@name='advantages']" position="before">
+               <label for="x_disponibilidad"/>
+                <div class="o_row" name="x_disponibilidad">
+                    <field name="x_disponibilidad" nolabel="1"/>
+                    <span>/ mes</span>
+                </div>
+
+                <label for="x_dispsem"/>
+                <div class="o_row" name="x_dispsem">
+                    <field name="x_dispsem" nolabel="1"/>
+                    <span>/ semana</span>
+                </div>
+
+                <label for="x_cxc"/>
+                <div class="o_row" name="x_cxc">
+                    <field name="x_cxc" nolabel="1"/>
+                    <span>/ mes</span>
+                </div>
+
+                <label for="x_emb"/>
+                <div class="o_row" name="x_emb">
+                    <field name="x_emb" nolabel="1"/>
+                    <span>/ mes</span>
+                </div>
+            </xpath>
+        </field>
+    </record>
+
+
+</odoo>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data>
+    	<record id="groups_account_cancel_feature" model="res.groups" >
+        	<field name="name">Cancel Feature Payment and Account</field>
+        </record>
+
+    </data>
+</odoo>    

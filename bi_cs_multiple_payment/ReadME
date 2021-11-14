@@ -1,0 +1,7 @@
+12.0.0.2
+
+--> Receive amount will be auto-fill as residual amount in Wizard.
+
+12.0.0.3
+
+-> Solve issue for multi payment in credit notes.

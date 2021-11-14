@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="account_view_account_payment_form_inherit_id" model="ir.ui.view">
+         <field name="name">account.payment.inherit_id</field>
+         <field name="model">account.payment</field>
+         <field name="inherit_id" ref="account.view_account_payment_form"/>
+         <field name="arch" type="xml">
+             <button name="post" position="after">
+                <button name="button_cancels" type="object" states="posted" string="Cancel"  groups="acc_invoice_payment_cancel_app.groups_account_cancel_feature"/>
+             </button>
+         </field>
+    </record>
+</odoo>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Invoice View -->
+    <record id="invoice_form" model="ir.ui.view">
+        <field name="name">account.invoice.form</field>
+        <field name="model">account.invoice</field>
+        <field name="inherit_id" ref="account.invoice_form"/>
+        <field name="arch" type="xml">
+            <data>
+                <xpath expr="//field[@name='payment_term_id']" position="after">
+                    <field name='create_stock_moves' attrs="{'readonly': [('state','!=', 'draft')]}"/>
+                    <field name='picking_id' readonly='1' attrs="{'invisible': [('create_stock_moves','=', False)]}"/>
+                    <field name="warehouse_id" invisible="1"/>
+                </xpath>
+                <xpath expr="//button[@name='action_invoice_open'][@states='draft']" position="replace">
+                    <button name="action_invoice_open" type="object" string="Validate" class="oe_highlight" groups="account.group_account_invoice" attrs="{'invisible': ['|',('state','!=', 'draft'), ('create_stock_moves','=',True)]}"
+                    />
+                    <button name="action_invoice_open" type="object" string="Validate" class="oe_highlight" groups="account.group_account_invoice" attrs="{'invisible': ['|',('state','!=', 'draft'), ('create_stock_moves','=',False)]}" confirm="Are you sure that you want to cleate stock moves with this Invoice."
+                    />
+                </xpath>
+                <!-- <xpath expr="//button[@name='action_invoice_open'][@states='proforma2']" position="replace">
+                    <button name="action_invoice_open" type="object" string="Validate" class="oe_highlight" groups="account.group_account_invoice" attrs="{'invisible': ['|',('state','!=', 'proforma2'), ('create_stock_moves','=',True)]}"/>
+                    <button name="action_invoice_open" type="object" string="Validate" class="oe_highlight" groups="account.group_account_invoice" attrs="{'invisible': ['|',('state','!=', 'proforma2'), ('create_stock_moves','=',False)]}" confirm="Are you sure that you want to create stock moves with this Invoice."/>
+                </xpath> -->
+            </data>
+        </field>
+    </record>
+
+    <record id="invoice_supplier_form_view" model="ir.ui.view">
+        <field name="name">account.invoice.supplier.form</field>
+        <field name="model">account.invoice</field>
+        <field name="inherit_id" ref="account.invoice_supplier_form"/>
+        <field name="arch" type="xml">
+            <field name='reference' position="after">
+                <field name='create_stock_moves' attrs="{'readonly': [('state','!=', 'draft')]}"/>
+                <field name='picking_id' readonly='1' attrs="{'invisible': [('create_stock_moves','=', False)]}"/>
+                <field name="warehouse_id" invisible="1"/>
+            </field>
+        </field>
+    </record>
+
+</odoo>

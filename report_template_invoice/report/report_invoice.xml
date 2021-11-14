@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <!--Action-->
+    <record id="account.account_invoices" model="ir.actions.report">
+        <field name="paperformat_id" ref="report_template_invoice.paperformat_invoice_euro_fit"/>
+    </record>
+
+    <record id="account.account_invoices_without_payment" model="ir.actions.report">
+        <field name="paperformat_id" ref="report_template_invoice.paperformat_invoice_euro_fit"/>
+    </record>
+
+    <template id="account.report_invoice">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-set="template" t-value="o.sudo().get_customer_invoice_template_id()"/>
+                <t t-if="not template or template.template_id.name_technical == 'default'">
+                    <t t-set="lang" t-value="o.user_id.sudo().lang if o.type in ('in_invoice', 'in_refund') else o.partner_id.lang"/>
+                    <t t-call="account.report_invoice_document" t-lang="lang"/>
+                </t>
+                <t t-else="">
+                    <t t-call="report_template_invoice.report_custom_template1_document" t-lang="lang"/>
+                </t>
+            </t>
+        </t>
+    </template>
+
+    <template id="account.report_invoice_with_payments">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-set="template" t-value="o.sudo().get_customer_invoice_template_id()"/>
+                <t t-if="not template or template.template_id.name_technical == 'default'">
+                    <t t-set="lang" t-value="o.user_id.sudo().lang if o.type in ('in_invoice', 'in_refund') else o.partner_id.lang"/>
+                    <t t-call="account.report_invoice_document_with_payments" t-lang="lang"/>
+                </t>
+                <t t-else="">
+                    <t t-call="report_template_invoice.report_custom_template1_document_with_payments" t-lang="lang"/>
+                </t>
+            </t>
+        </t>
+    </template>
+
+
+    <!-- Todo option to configure paperfomrat-->
+
+
+</odoo>

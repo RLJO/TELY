@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_custmer_loan,customer.loan,model_customer_loan,account.group_account_user,1,1,1,0
+access_customer_loan_manager,customer.loan,model_customer_loan,account.group_account_manager,1,1,1,1
+access_customer_loan_line,customer.loan.line,model_customer_loan_line,account.group_account_user,1,1,1,0
+access_customer_loan_line_manager,customer.loan.line,model_customer_loan_line,account.group_account_manager,1,1,1,1

@@ -1,0 +1,33 @@
+<?xml version="1.0" ?>
+<odoo>
+    <data noupdate="0">
+        <!--Email template -->
+        <record id="email_template_estado_cuenta" model="mail.template">
+            <field name="name">Estado de cuenta</field>
+            <field name="model_id" ref="base.model_res_partner"/>
+            <field name="email_from">info@grupopacasa.com</field>
+            <field name="email_to">info@grupopacasa.com</field>
+            <field name="partner_to">${object.id}</field>
+            <field name="subject">Estado de cuenta</field>
+            <field name="body_html" type="html">
+                <div style="margin: 0px; padding: 0px;">
+                    <p style="margin: 0px; padding: 0px; font-size: 13px;">
+                        Estimado cliente
+                        <br/>
+                        ${object.name}
+                        <br/>
+                        <br/>
+                        Adjunto a este correo encontrará un estado de cuenta con los documentos pendientes a la fecha.
+                        <br/>
+                        <br/>
+                        Muchas Gracias.
+                    </p>
+                </div>
+            </field>
+            <field name="report_template" ref="action_report_print_overdue"/>
+            <field name="report_name">ESTADO_CUENTA_${(object.vat or '')}</field>
+            <field name="user_signature" eval="False"/>
+            <field name="auto_delete" eval="True"/>
+        </record>
+    </data>
+</odoo>

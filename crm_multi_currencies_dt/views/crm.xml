@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+
+
+        <record id="currency_case_form_view_leads_inh" model="ir.ui.view">
+            <field name="name">currency.crm.case.form.view.leads.inh</field>
+            <field name="model">crm.lead</field>
+            <field name="inherit_id" ref="crm.crm_case_form_view_oppor"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='planned_revenue']" position="attributes">
+                       <attribute name="readonly">1</attribute>
+                       <attribute name="class"></attribute>
+                </xpath>
+                <xpath expr="//field[@name='partner_id']" position="replace">
+                       <field name="partner_id" options='{"no_open": True,"no_create": 1, "no_create_edit": 1}'/>
+                </xpath>
+
+                <xpath expr="//label[@for='planned_revenue']" position="replace">
+                       <label for="planned_revenue" string="Revenue with main currency"/>
+                </xpath>
+
+                <xpath expr="//h2[@class='o_row row no-gutters d-flex']/div" position="before">
+                    <div>
+                    <label for="darb_planned_revenue_currency"/>
+                    <div class="o_row">
+                    <field name="partner_crm_currency_id" invisible="1"/>
+                    <field name="darb_planned_revenue_currency" widget="monetary" options="{'currency_field': 'partner_crm_currency_id'}"/>
+                    </div>
+                    </div>
+                    <div>
+                        <label for="darb_change_currency"/>
+                        <div class="o_row">
+                    <field name="darb_change_currency" invisible="0"/>
+                    </div>
+                    </div>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="darb_view_create_opportunity_simplified_inh" model="ir.ui.view">
+            <field name="name">darb.view.create.opportunity.simplified.inh</field>
+            <field name="model">crm.lead</field>
+            <field name="inherit_id" ref="crm.view_create_opportunity_simplified"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='planned_revenue']" position="attributes">
+                       <attribute name="readonly">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='partner_id']" position="replace">
+                       <field name="partner_id" options='{"no_open": True,"no_create": 1, "no_create_edit": 1}'/>
+                </xpath>
+                <xpath expr="//field[@name='planned_revenue']" position="before">
+                    <field name="partner_crm_currency_id" invisible="1"/>
+                    <field name="darb_planned_revenue_currency" widget="monetary" options="{'currency_field': 'partner_crm_currency_id'}"/>
+                    <field name="darb_change_currency" invisible="0"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

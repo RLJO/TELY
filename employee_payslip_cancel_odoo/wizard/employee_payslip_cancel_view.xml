@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="view_employee_payslip_cancel_wiz" model="ir.ui.view">
+            <field name="name">Payslip reset to draft</field>
+            <field name="model">custom.employee.payslip.cancel</field>
+            <field name="arch" type="xml">
+                <form string="Reset payslip to draft state">
+                    <separator string="This action will cancel a payslip and delete related accounting entry and reset payslip to draft state."/>
+                    <group>
+                        <field name="is_confirm_payslip_cancel"/>
+                    </group>
+                    <footer>
+                        <button name="action_reset_payslip_to_draft" type="object" string="Reset to Draft" class="btn-primary"/>
+                        or
+                        <button string="_Cancel" class="btn-default" special="cancel" />
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_employee_payslip_cancel_wiz" model="ir.actions.act_window">
+            <field name="name">Reset to Draft</field>
+            <field name="res_model">custom.employee.payslip.cancel</field>
+            <field name="binding_model_id" ref="hr_payroll.model_hr_payslip"/>
+            <field name="groups_id" eval="[(4, ref('hr_payroll.group_hr_payroll_manager'))]"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_employee_payslip_cancel_wiz"/>
+            <field name="target">new</field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="action_account_move_cancel" model="ir.actions.server">
+        <field name="name">Cancel Invoice</field>
+        <field name="model_id" ref="account.model_account_invoice"/>
+        <field name="binding_model_id" ref="account.model_account_invoice"/>
+        <field name="binding_view_types">list</field>
+        <field name="state">code</field>
+        <field name="code">
+        if records:
+            records.account_move_cancel()
+        </field>
+    </record>
+
+    <record id="action_account_move_reset_draft" model="ir.actions.server">
+        <field name="name">Cancel And Reset Draft Invoice</field>
+        <field name="model_id" ref="account.model_account_invoice"/>
+        <field name="binding_model_id" ref="account.model_account_invoice"/>
+        <field name="binding_view_types">list</field>
+        <field name="state">code</field>
+        <field name="code">
+        if records:
+            records.account_move_draft()
+        </field>
+    </record>
+
+    <record id="action_account_move_reset_delete" model="ir.actions.server">
+        <field name="name">Cancel And Reset Delete Invoice</field>
+        <field name="model_id" ref="account.model_account_invoice"/>
+        <field name="binding_model_id" ref="account.model_account_invoice"/>
+        <field name="binding_view_types">list</field>
+        <field name="state">code</field>
+        <field name="code">
+        if records:
+            records.account_move_delete()
+        </field>
+    </record>
+
+</odoo>
