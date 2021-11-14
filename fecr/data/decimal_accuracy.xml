@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record forcecreate="True" id="fecr_amount_precision" model="decimal.precision">
+        <field name="name">FECR Amount Precision</field>
+        <field name="digits">2</field>
+    </record>
+
+    <record forcecreate="True" id="fecr_qty_precision" model="decimal.precision">
+        <field name="name">FECR Quantities Precision</field>
+        <field name="digits">3</field>
+    </record>
+</odoo>

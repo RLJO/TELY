@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="invoice_ticket_paper" model="report.paperformat">
+        <field name="name">Invoice Ticket</field>
+        <field name="default"/>
+        <field name="format">custom</field>
+        <field name="page_height">297</field>
+        <field name="page_width">52</field>
+        <field name="orientation">Portrait</field>
+        <field name="margin_top">0</field>
+        <field name="margin_bottom">0</field>
+        <field name="margin_left">0</field>
+        <field name="margin_right">0</field>
+        <field name="header_line" eval="False"/>
+        <field name="header_spacing">0</field>
+        <field name="dpi">90</field>
+    </record>
+
+    <report
+        id="account_invoice_ticket_report"
+        model="account.invoice"
+        string="Ticket"
+        name="fecr.account_invoice_ticket_template"
+        file="fecr.account_invoice_ticket_file"
+        paperformat="invoice_ticket_paper"
+        report_type="qweb-pdf"/>
+
+    <template id="account_invoice_ticket_template">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <div class="article"
+                    t-att-data-oe-model="o._name"
+                    t-att-data-oe-id="o.id"
+                    t-att-data-oe-lang="o.env.context.get('lang')">
+                    <div class="page">
+                        <div class="text-center">
+                            FACTURA ELECTRONICA
+                            <br/>
+                            Version Documento: 4.2
+                            <br/>
+                            <h2 t-esc="o.user_id.company_id.commercial_name"/>
+                            <t t-esc="o.user_id.company_id.name"/>
+                            <br/>
+                            Ced.Jur:
+                            <t t-esc="o.user_id.company_id.vat"/>
+                            <br/>
+                            Tel:
+                            <t t-esc="o.user_id.company_id.phone"/>
+                            <br/>
+                            <t t-esc="o.user_id.company_id.email"/>
+                            <br/>
+                            <br/>
+                            <table class="text-center">
+                                <tr>
+                                    <td>Clave Numerica:</td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <t t-esc="o.number_electronic[0:21]"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <t t-esc="o.number_electronic[21:]"/>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                        <br/>
+                        <table>
+                            <tr>
+                                <td>Factura:</td>
+                                <td>
+                                    <t t-esc="o.number_electronic[21:41]"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Cajero:</td>
+                                <td>
+                                    <span t-field="o.user_id"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Fecha:</td>
+                                <td>
+                                    <span t-field="o.date_invoice"/>
+                                </td>
+                            </tr>
+                            <t t-if="o.partner_id">
+                                <tr>
+                                    <td>Cliente:</td>
+                                    <td>
+                                        <span t-field="o.partner_id.name"/>
+                                    </td>
+                                </tr>
+                            </t>
+                            <t t-if="o.partner_id.vat">
+                                <tr>
+                                    <td>Cedula:</td>
+                                    <td>
+                                        <span t-field="o.partner_id.vat"/>
+                                        <br/>
+                                    </td>
+                                </tr>
+                            </t>
+                        </table>
+
+                        <div class="row"/>
+
+                        <table class="table table-condensed">
+                            <thead>
+                                <tr>
+                                    <th>Descripcion</th>
+                                    <th class="text-right">Cant</th>
+                                    <th class="text-right">Precio</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr t-foreach="o.invoice_line_ids" t-as="line">
+                                    <td>
+                                        <span t-field="line.product_id"/>
+                                    </td>
+                                    <td class="text-right">
+                                        <t t-if="o.state != 'cancel' and o.payment_ids">
+                                            <span t-field="line.quantity"/>
+                                        </t>
+                                    </td>
+                                    <td class="text-right">
+                                        <t t-if="o.state != 'cancel' and o.payment_ids">
+                                            <span t-esc="line.price_subtotal_incl"/>
+                                        </t>
+                                        <t t-if="line.discount != 0.0">
+                                            <span t-esc="line.discount"/>
+                                            %
+                                        </t>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2">
+                                        <strong>Total</strong>
+                                    </td>
+                                    <td class="text-right">
+                                        <strong t-esc="o.amount_total"/>
+                                    </td>
+                                </tr>
+                                <tr class="border-black">
+                                    <td colspan="2">
+                                        <strong>I.V.I.</strong>
+                                    </td>
+                                    <td class="text-right">
+                                        <strong t-esc="o.amount_tax"/>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <table class="table table-condensed">
+                            <thead>
+                                <tr>
+                                    <th>Pago</th>
+                                    <th>Monto</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr t-foreach="o.payment_ids" t-as="payment">
+                                    <td>
+                                        <span t-esc="payment.journal_id.name"/>
+                                    </td>
+                                    <td>
+                                        <span t-esc="payment.amount"/>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div style="text-align:center">Res DGT-R-48-2016 del 07/10/2016</div>
+                    </div>
+                </div>
+            </t>
+        </t>
+    </template>
+</odoo>

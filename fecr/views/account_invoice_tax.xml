@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="account_invoice_tax_view_form_inherited_invoice_id" model="ir.ui.view">
+        <field name="name">account.invoice.tax.view.form.inherited.invoice_id</field>
+        <field name="model">account.invoice.tax</field>
+        <field name="inherit_id" ref="account.view_invoice_tax_form"/>
+        <field name="arch" type="xml">
+            <field name="name" position="after">
+                <field name="invoice_id"/>
+            </field>
+        </field>
+    </record>
+
+    <record id="account_invoice_tax_report_view_tree" model="ir.ui.view">
+        <field name="name">account.invoice.tax.report.view.tree</field>
+        <field name="model">account.invoice.tax</field>
+        <field name="arch" type="xml">
+            <tree create="false" delete="false" edit="false">
+                <field name="invoice_id"/>
+                <field name="name"/>
+                <field name="amount_sale" sum="Amount total"/>
+                <field name="base" sum="Base"/>
+                <field name="amount" sum="Amount tax"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="account_invoice_tax_report_view_search" model="ir.ui.view">
+        <field name="name">account.invoice.tax.report.view.search</field>
+        <field name="model">account.invoice.tax</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="date_invoice"/>
+                <field name="state"/>
+                <group string="Group By">
+                    <filter name="activity_id_group" string="Activity" context="{'group_by': 'activity_id'}"/>
+                    <filter name="type_tax_use_group" string="Tax Use" context="{'group_by': 'type_tax_use'}"/>
+                    <filter name="tax_id_group" string="Tax" context="{'group_by': 'tax_id'}"/>
+                    <filter name="purchase_type_group" string="Purchase type" context="{'group_by': 'purchase_type'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="account_invoice_tax_report_action" model="ir.actions.act_window">
+        <field name="name">Taxes report</field>
+        <field name="res_model">account.invoice.tax</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="account_invoice_tax_report_view_search"/>
+        <field name="context">{ 'search_default_activity_id_group': 1, 'search_default_type_tax_use_group': 1, 'search_default_tax_id_group': 1, 'search_default_purchase_type_group': 1, }</field>
+    </record>
+
+    <menuitem id="account_invoice_report_menu" parent="account.menu_finance_reports" name="Taxes Report" sequence="10" action="account_invoice_tax_report_action"/>
+</odoo>

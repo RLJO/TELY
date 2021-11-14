@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_order_form_inherit_subscription_product" model="ir.ui.view">
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='other_information']" position="after">
+                <field name="apply_terms_conditions" invisible="1"/>
+                <page string="Términos y condiciones" name="terms_and_conditions" attrs="{'invisible': [('apply_terms_conditions','=',False)]}">
+                    <group>
+                        <field name="conditions"/>
+                        <field name="terms_contract"/>
+                        <field name="important"/>
+                    </group>
+                </page>
+                <page string="Planes de pago" name="plain_of_paids" attrs="{'invisible': [('apply_terms_conditions','=',False)]}">
+                    <group>
+                          <field name="detalle"/>
+                    </group>
+                    <field name="plain_paid_lines" widget="section_and_note_one2many" mode="tree">
+                        <tree editable="bottom" string="Detalle de plan de pago" default_order="id">
+                            <field name="order_id" invisible="1"/>
+                            <field name="hito"/>
+                            <field name="currency_id"/>
+                            <field name="monto"/>
+                            <field name="fecha"/>
+                        </tree>
+                    </field>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>

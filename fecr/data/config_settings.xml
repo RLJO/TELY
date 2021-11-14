@@ -1,0 +1,10 @@
+<odoo>
+    <record model="res.config.settings" id="force_multi_uom">
+        <field name="group_uom" eval="1"/>
+    </record>
+
+    <function model="res.config.settings" name="execute">
+        <value eval="[ref('force_multi_uom')]"/>
+        <value eval="{}"/>
+    </function>
+</odoo>

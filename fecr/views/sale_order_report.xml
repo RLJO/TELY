@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="terms_conditions_sale_order" inherit_id="sale.report_saleorder_document">
+        <xpath expr="//div[@class='page']" position="after">
+            <t t-if="doc.apply_terms_conditions">
+                <div class="page" id="page_terms">
+                    <p style="page-break-after:always;"></p>
+                    <h5 class="font-weight-bold">CONDICIONES TÉCNICAS</h5>
+                    <div class="row" id="conditions_technicals">
+                        <div class="col-1"></div>
+                        <div class="col-10" style="text-align: justify">
+                            <span t-field="doc.conditions"/>
+                        </div>
+                        <div class="col-1"></div>
+                    </div>
+                    <hr/>
+                    <h5 class="font-weight-bold">CONDICIONES CONTRACTUALES</h5>
+                    <div class="row" id="conditions_contractuals">
+                        <div class="col-1"></div>
+                        <div class="col-10" style="text-align: justify; font-size: 18px">
+                            <span t-field="doc.terms_contract"/>
+                        </div>
+                        <div class="col-1"></div>
+                    </div>
+                    <hr/>
+                    <h5 class="font-weight-bold">Importante</h5>
+                    <div class="row" id="important">
+                        <div class="col-1"></div>
+                        <div class="col-10" style="text-align: justify">
+                            <span t-field="doc.important"/>
+                        </div>
+                        <div class="col-1"></div>
+                    </div>
+                </div>
+                <div class="page" id="page_orden">
+                    <p style="page-break-after:always;"></p>
+                    <h6 class="font-weight-bold">ORDEN DE TRABAJO</h6>
+                    <h6>Para la aceptación y programación de los trabajos será necesario que nos devuelvan vía fax o
+                        correo
+                        electrónico esta hoja de la cotización,
+                        llenando con la información solicitada y el comprobante depago del primer adelanto.
+                    </h6>
+                    <h6>AUTORIZACIÓN DEL TRABAJO
+                        <span class="float-right mr-5">FECHA:_____________________________</span>
+                    </h6>
+                    <h6>NOMBRE:______________________________________________________
+                        <span class="float-right mr-5">FIRMA:________________________</span>
+                    </h6>
+                    <h6>INFORMACION PARA LA FACTURACIÓN ELECTRÓNICA</h6>
+                    <h6>Facturar a:_____________________________________________________
+                        <span class="float-right mr-5">Cédula:__________________________</span>
+                    </h6>
+                    <h6>Dirección
+                        exacta:__________________________________________________________
+                    </h6>
+                    <h6>Provincia:__________________________
+                        <span>Cantón:___________________________</span>
+                        <span class="float-right mr-5">Distrito:____________________</span>
+                    </h6>
+                    <h6>Teléfono:________________________
+                        <span class="float-right mr-5">Correo
+                            electrónico::_______________________________________________
+                        </span>
+                    </h6>
+                    <h6>Estudio va dirigido
+                        a:_____________________________________________________________________________
+                    </h6>
+                    <br/>
+                    <h6>Pagaré a la cuenta a nombre de GEOTÉCTICA S.A. Cédula Jurídica 3-101-541561.</h6>
+                    <h6>Especificar detalle:
+                        <strong>
+                            <span t-field="doc.detalle"/>
+                        </strong>
+                    </h6>
+                    <div class="row">
+                        <div class="col-1"/>
+                        <div class="col-10" style="text-align: justify">
+                            <table class="table table-sm o_main_table">
+                                <thead>
+                                    <tr>
+                                        <th>Descripción del Hito</th>
+                                        <th>Monto a pagar</th>
+                                        <th>Fecha de pago</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-foreach="doc.plain_paid_lines" t-as="plan">
+                                        <tr>
+                                            <td>
+                                                <span t-field="plan.hito"/>
+                                            </td>
+                                            <td>
+                                                <span t-field="plan.monto"/>
+                                            </td>
+                                            <td>
+                                                <span t-field="plan.fecha"/>
+                                            </td>
+                                        </tr>
+                                    </t>
+                                </tbody>
+                            </table>
+
+
+                            <!--                    <p>• Primer pago ($15.876,50) con la aprobación del proyecto</p>-->
+                            <!--                    <p>• Segundo pago ($14.288,85) al iniciar la prueba de bombeo</p>-->
+                            <!--                    <p>• Pago final ($1.587,65) contra entrega del estudio</p>-->
+                        </div>
+                        <div class="col-1"/>
+                    </div>
+                    <h6>Cuentas Bancarias</h6>
+                    <div class="row">
+                        <div class="col-1"/>
+                        <div class="col-11">
+                            Banco Nacional :
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-2"/>
+                        <div class="col-9" style="text-align: justify">
+                            • Cuenta Dólares N°100-02-114-600241-7, IBAN CR60015111410026002411
+                            <br/>
+                            • Cuenta Colones N°100-01-114-001041-2, IBAN CR76015111410010010412
+                        </div>
+                        <div class="col-1"/>
+                    </div>
+                    <div class="row">
+                        <div class="col-1"/>
+                        <div class="col-11">
+                            Banco de Costa Rica :
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-2"/>
+                        <div class="col-9" style="text-align: justify">
+                            • Cuenta Dólares N°15201001048483654, IBAN CR20015201001048483654
+                            <br/>
+                            • Cuenta Colones N°15201001048483571, IBAN CR30015201001048483571
+                        </div>
+                        <div class="col-1"/>
+                    </div>
+                    <br/>
+                    <h6>Sin otro particular, a sus apreciables órdenes se despide,</h6>
+                    <br/>
+                    <h6 class="text-center">Ana Araya S</h6>
+                    <h6 class="text-center">Cotizaciones &amp; Servicio al Cliente</h6>
+
+
+                </div>
+            </t>
+        </xpath>
+    </template>
+</odoo>

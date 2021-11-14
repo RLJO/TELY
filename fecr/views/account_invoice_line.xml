@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="account_invoice_line_form_view_inherit_fecr" model="ir.ui.view">
+        <field name="name">accout.invoice.line.form.view.inherit.fecr</field>
+        <field name="model">account.invoice.line</field>
+        <field name="inherit_id" ref="account.view_invoice_line_form"/>
+        <field name="arch" type="xml">
+            <field name="invoice_line_tax_ids" position="after">
+                <field name="total_amount" invisible="1"/>
+                <field name="discount_note" invisible="1"/>
+                <field name="total_tax" invisible="1"/>
+            </field>
+        </field>
+    </record>
+</odoo>
